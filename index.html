@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>JS TABLE</title>
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="normalize.css">
+        <link rel="stylesheet" href="js-table.css">
+        <link rel="stylesheet" href="eightyshades/style.css">
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="js-table.js"></script>
+        <!--[if lte IE 7]><script src="eightyshades/lte-ie7.js"></script><![endif]-->
+        <script>
+            // global namespace
+            window.my = window.my || {};
+
+            // data namespace
+            window.my.data = window.my.data || {};
+            // setup in php ... ($data should be an associative array) ... don't forget the last ";"
+            // window.my.data.table = <?php echo json_encode($data); ?>;
+            // setup in js ... just for example
+            window.my.data.table = {
+                columns: {
+                    'sql_name_1': { label: 'my first column', type: 'string',  sortable: true,  attributes: { 'class': 'asc' } },
+                    'sql_name_2': { label: 'my column 2',     type: 'string',  sortable: true },
+                    'sql_name_3': { label: 'my column 3',     type: 'boolean', sortable: true },
+                    'sql_name_4': { label: 'my column 4',     type: 'float',   sortable: true,  append: ' €' },
+                    'sql_name_5': { label: 'my column 5',     type: 'string',  visible: false },
+                    'sql_name_6': { label: 'my last column',  type: 'integer', sortable: false, prepend: 'client-' }
+                },
+                rows: [
+                    { 'sql_name_1': 'a', 'sql_name_2': 'JavaScript', 'sql_name_3': true,  'sql_name_4': 123.56, 'sql_name_5': null,  'sql_name_6': 1 },
+                    { 'sql_name_1': 'b', 'sql_name_2': 'is',         'sql_name_3': false, 'sql_name_4': 5682,   'sql_name_5': 'foo', 'sql_name_6': 2 },
+                    { 'sql_name_1': 'c', 'sql_name_2': 'required',   'sql_name_3': false, 'sql_name_4': 568.2,  'sql_name_5': 'bar', 'sql_name_6': 3 },
+                    { 'sql_name_1': 'd', 'sql_name_2': 'to',         'sql_name_3': true,  'sql_name_4': 56698,  'sql_name_5': 'bar', 'sql_name_6': 4 },
+                    { 'sql_name_1': 'd', 'sql_name_2': 'use',        'sql_name_3': true,  'sql_name_4': 0,      'sql_name_5': 'bar', 'sql_name_6': 5 },
+                    { 'sql_name_1': 'e', 'sql_name_2': 'this',       'sql_name_3': false, 'sql_name_4': 5682,   'sql_name_5': 'foo', 'sql_name_6': 6 },
+                    { 'sql_name_1': 'f', 'sql_name_2': 'tool',       'sql_name_3': true,  'sql_name_4': 566.48, 'sql_name_5': 'bar', 'sql_name_6': 7 },
+                    { 'sql_name_1': 'g', 'sql_name_2': 'Oops',       'sql_name_3': false, 'sql_name_4': 120,    'sql_name_5': 'foo', 'sql_name_6': 8 }
+                ],
+                actions: [
+                    { id: 'edit',   attributes: { 'aria-hidden': 'true',  'class': 'icon-compose' }, label: 'Edit',                              url: 'http://google.fr?plop=${sql_name_1}&client=${sql_name_5}' },
+                    { id: 'delete', attributes: { 'aria-hidden': 'true',  'class': 'icon-trash' },   label: 'Remove', confirm: 'Are you sure ?', url: 'http://google.fr?client=${sql_name_5}' }
+                ]
+            };
+        </script>
+    </head>
+    <body>
+        <noscript>
+            <p>Oops, JavaScript is required to use this tool. <a href="http://enable-javascript.com/">To know how, please check this page</a></p>
+        </noscript>
+
+        <form id="table-search">
+            <fieldset>
+                <legend>Search criterias</legend>
+                <div>
+                    <label class="label" for="search_sql_name_1">First column</label>
+                    <input name="sql_name_1" id="search-sql-name-1" type="text" value="" />
+                </div>
+                <div>
+                    <label class="label" for="search-sql-name-2">Column 2</label>
+                    <input name="sql_name_2" id="search-sql-name-2" type="text" value="" />
+                </div>
+                <div>
+                    <span class="label">Column 3</span>
+                    <ul>
+                        <li><label><input name="sql_name_3"  type="radio" value="" /> All</label></li>
+                        <li><label><input name="sql_name_3"  type="radio" value="true" /> True</label></li>
+                        <li><label><input name="sql_name_3"  type="radio" value="false" /> False</label></li>
+                    </ul>
+                </div>
+            </fieldset>
+            <button type="submit">Find</button><button id="table-reset" type="button">Reset</button>
+        </form>
+        <div id="table-container"></div>
+
+        <script>
+            (function(JsTable) {
+                // create the js table
+                var jstable = new JsTable($('#table-container'), window.my.data.table);
+                jstable.render();
+
+                // apply criterias to data
+                $('#table-search').submit(function(event) {
+                    event.preventDefault();
+                    var formData  = $(this).serializeArray();
+                    var criterias = {};
+                    for (var i=0; i<formData.length; i++) {
+                        if (formData[i].value !== '') {
+                            criterias[formData[i].name] = formData[i].value;
+                        }
+                    }
+                    jstable.find(criterias);
+                });
+
+                // reset data
+                $('#table-reset').click(function(event) {
+                    event.preventDefault();
+                    jstable.renderBody();
+                });
+            })(window.my.jstable);
+        </script>
+    </body>
+<html>

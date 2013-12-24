@@ -1,0 +1,122 @@
+@import url(http://fonts.googleapis.com/css?family=Patua+One|Open+Sans);
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+table.js-table {
+    border-collapse: separate;
+    background: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    margin: 50px auto;
+    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    width: 96%;
+}
+.js-table thead {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+.js-table thead th {
+    font-family: 'Patua One', cursive;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    padding: 20px;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #646f7f), color-stop(100%, #4a5564));
+    background-image: -webkit-linear-gradient(#646f7f, #4a5564);
+    background-image: -moz-linear-gradient(#646f7f, #4a5564);
+    background-image: -o-linear-gradient(#646f7f, #4a5564);
+    background-image: linear-gradient(#646f7f, #4a5564);
+    border-top: 1px solid #858d99;
+}
+.js-table thead th:first-child {
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.js-table thead th:last-child {
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.js-table thead th.sortable {
+    cursor: pointer;
+}
+.js-table thead th.sortable span {
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-left: 20px;
+}
+.js-table thead th.sortable:hover span {
+    background-image: url(sort.png) !important;
+}
+.js-table thead th.sortable.asc span {
+    background-image: url(sort.asc.png);
+}
+.js-table thead th.sortable.desc span {
+    background-image: url(sort.desc.png);
+}
+.js-table tbody tr td {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    color: #5f6062;
+    font-size: 13px;
+    padding: 20px 20px 20px 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.js-table tbody tr:nth-child(2n) {
+    background: #f0f3f5;
+}
+.js-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.js-table tbody tr:last-child td:first-child {
+    -moz-border-radius-bottomleft: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.js-table tbody tr:last-child td:last-child {
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.js-table tbody:hover > tr td {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    opacity: 0.5;
+}
+.js-table tbody:hover > tr:hover td {
+    text-shadow: none;
+    color: #2d2d2d;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+.js-table tbody tr.hidden {
+    display: none;
+}
+.js-table tbody .actions {
+    margin: 0;
+    padding: 0;
+}
+.js-table tbody .actions button {
+    background: transparent;
+    border: 0;
+    color: #5f6062;
+}
+.js-table tbody .actions button:hover,
+.js-table tbody .actions button:active {
+    background: transparent;
+    border: 0;
+    color: black;
+}
